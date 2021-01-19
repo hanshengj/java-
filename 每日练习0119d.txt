@@ -1,0 +1,47 @@
+/**
+ * Crtated with IntelliJ IDEA.
+ * Destcription:
+ * User: hp
+ * Date: 2021-01-19
+ * Time: 16:23
+ */
+public class MyException {
+    private static String userName = "秀秀";
+    private static String password = "99669696";
+
+    public static void main(String[] args) {
+        try {
+            login("张三", "99669696");
+        } catch (UserError userError) {
+            userError.printStackTrace();
+        } catch (PasswordError passwordError) {
+            passwordError.printStackTrace();
+        }
+    }
+
+    public static void login(String userName, String password) throws UserError,
+            PasswordError {
+        if (!MyException.userName.equals(userName)) {
+            throw new UserError("用户名错误");
+        }
+        if (!MyException.password.equals(password)) {
+            throw new PasswordError("密码错误");
+        }
+        System.out.println("登陆成功");
+    }
+
+    static class UserError extends Exception {
+        public UserError(String message) {
+            super(message);
+        }
+    }
+
+    static class PasswordError extends Exception {
+        public PasswordError(String message) {
+            super(message);
+        }
+    }
+}
+
+
+    
