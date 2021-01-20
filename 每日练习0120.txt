@@ -1,0 +1,45 @@
+给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，
+要求也按 非递减顺序 排序。
+
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        int len=nums.length;
+          int[]nums1=new int[len];
+        for (int i=0;i<len;i++){
+          nums1[i]=nums[i]*nums[i];
+        }
+         Arrays.sort(nums1);
+         return nums1;
+    }
+}
+
+给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，
+而所有字母的位置发生反转。
+
+ class Solution {
+    public String reverseOnlyLetters(String S) {
+        int len=S.length();
+        if(len==0){
+            return S;
+        }
+        char []nums=S.toCharArray();
+        int left=0;
+        int right=len-1;
+        while(left<right){
+            while(!Character.isLetter(nums[left])&&left<right){
+                left++;
+            }
+              while(!Character.isLetter(nums[right])&&left<right){
+                right--;
+            }
+            if(left<right){
+            char temp=nums[right];
+            nums[right]=nums[left];
+            nums[left]=temp;
+            left++;
+            right--;
+            }
+        }
+       return new String(nums);
+    }
+}
