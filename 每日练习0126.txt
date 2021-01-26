@@ -1,0 +1,73 @@
+给你一个树，请你 按中序遍历 重新排列树，使树中最左边的结点现在是树的根，并且每个结点没有左子
+结点，只有一个右子结点。
+
+ class Solution {
+    public TreeNode increasingBST(TreeNode root) {
+        //1.创建一个新动态数组
+        List<Integer> vals = new ArrayList();
+        //2.调用方法
+        inorder(root,vals);
+        //3.定义一个树结点ans，以及cur指针
+        TreeNode ans = new TreeNode(0), cur = ans;
+        for(int v : vals) {
+            //4.遍历生成新树
+            cur.right = new TreeNode(v);
+            cur = cur.right;
+        }
+        return ans.right;
+    }
+
+    public void inorder(TreeNode node, List<Integer> vals) {
+        //1.判断树/引入结点是否为空
+        if(node == null) {
+            return;
+        }
+        //先左后右
+        //2.递归调用该结点的左结点，并在动态数组中加入新结点
+        inorder(node.left,vals);
+        vals.add(node.val);
+        //2.递归调用该结点的右结点，并在动态数组中加入新结点
+        inorder(node.right,vals);
+    }
+}
+
+给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。
+
+你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节
+点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        //如果两个节点都为空，直接返回空就行了
+        if (t1 == null && t2 == null)
+            return null;
+        //如果t1节点为空，就返回t2节点
+        if (t1 == null)
+            return t2;
+        //如果t2节点为空，就返回t1节点
+        if (t2 == null)
+            return t1;
+        //走到这一步，说明两个节点都不为空，然后需要把这两个节点
+        //合并成一个新的节点
+        TreeNode newNode = new TreeNode(t1.val + t2.val);
+        //当前节点t1和t2合并完之后，还要继续合并t1和t2的子节点
+        newNode.left = mergeTrees(t1.left, t2.left);
+        newNode.right = mergeTrees(t1.right, t2.right);
+        return newNode;
+    }
+
+}
