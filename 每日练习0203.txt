@@ -1,0 +1,95 @@
+
+N  辆车沿着一条车道驶向位于 target 英里之外的共同目的地。
+
+每辆车 i 以恒定的速度 speed[i] （英里/小时），从初始位置 position[i] （英里） 沿车道驶向目的地。
+
+一辆车永远不会超过前面的另一辆车，但它可以追上去，并与前车以相同的速度紧接着行驶。
+
+此时，我们会忽略这两辆车之间的距离，也就是说，它们被假定处于相同的位置。
+
+车队 是一些由行驶在相同位置、具有相同速度的车组成的非空集合。注意，一辆车也可以是一个车队。
+
+即便一辆车在目的地才赶上了一个车队，它们仍然会被视作是同一个车队。
+会有多少车队到达目的地?
+示例：
+
+输入：target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]
+输出：3
+解释：
+从 10 和 8 开始的车会组成一个车队，它们在 12 处相遇。
+从 0 处开始的车无法追上其它车，所以它自己就是一个车队。
+从 5 和 3 开始的车会组成一个车队，它们在 6 处相遇。
+请注意，在到达目的地之前没有其它车会遇到这些车队，所以答案是 3。
+import java.util.Arrays;
+class Solution {
+    public int carFleet(int target, int[] position, int[] speed) {
+        if(position == null || position.length ==0) return 0;
+        //由于每辆车的起点不通，故可通过起点左边作为index来记录每一辆车
+        int[] temp = new int[target];//记录每一辆车的速度，因为按位置排序后，对应的速度会打乱
+        for(int i=0;i<position.length;i++){
+            temp[position[i]] = speed[i];
+        }
+
+        //用于保存每一辆车到终点的时间
+        double[] time = new double[position.length];
+        //排序位置，以便于从离终点最近的车开始可能形成的车队
+        Arrays.sort(position);
+        for(int i=0;i<time.length;i++){
+            int n = position.length -1-i;
+            //time的顺序为离终点最近的车依次排序
+            time[i] = (target-position[n])/(1.0*temp[position[n]]);
+            //time里存的是按位置由近到远的车辆到达终点是所需的时间
+        }
+        
+        int ans = 1;
+        for(int i=0;i<time.length-1;i++){
+            if(time[i]>=time[i+1]){
+                //如果后面的车比前面的车先到终点，那么组成一个车队，时间与前面的车保持一致
+                time[i+1] = time[i];
+            }else{
+                ans++;
+            }
+        }
+        return ans;
+    }
+}
+给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+
+示例 1：
+
+输入：nums = [2,0,2,1,1,0]
+输出：[0,0,1,1,2,2]
+
+class Solution {
+    public void sortColors(int[] nums) {
+        if (nums.length < 2) {
+            return;
+        }
+
+        int pos = 0;
+
+        for (int i = 0; i < nums.length; ++i) {
+            // 把所有 0 放在最前面
+            if (nums[i] == 0) {
+                swap(nums, i, pos);
+                pos++;
+            }
+        }
+
+        for (int i = pos; i < nums.length; ++i) {
+            // 把所有 1 放在 0 的后面（那么所有 2 就自然都在 0 和 1 后面了）
+            if (nums[i] == 1) {
+                swap(nums, i, pos);
+                pos++;
+            }
+        }
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+
