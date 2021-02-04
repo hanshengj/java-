@@ -1,0 +1,34 @@
+给定一个排序好的数组 arr ，两个整数 k 和 x ，从数组中找到最靠近 x（两数之差最小）的 k 个数。返回的结果必须要是按升序排好的。
+
+整数 a 比整数 b 更接近 x 需要满足：
+
+|a - x| < |b - x| 或者
+|a - x| == |b - x| 且 a < b
+ 
+
+示例 1：
+
+输入：arr = [1,2,3,4,5], k = 4, x = 3
+输出：[1,2,3,4]
+
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        List<Integer> result = new ArrayList<Integer>();
+        int left = 0;
+        int length = arr.length;
+        int right = length - 1;
+        while(left < right){
+            int mid = (left + right) >>> 1;
+            if(mid + k >= length || Math.abs(arr[mid] - x) <= Math.abs(arr[mid+k] - x)){
+                right = mid;
+            }
+            else{
+                left = mid + 1;
+            }
+        }
+        for(int i = left;i<left+k;i++){
+            result.add(arr[i]);
+        }
+        return result;
+    }
+}
