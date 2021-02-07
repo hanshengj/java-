@@ -1,0 +1,40 @@
+
+旧键盘上坏了几个键，于是在敲一段文字的时候，对应的字符就不会出现。现在给出应该输入的一段文字、以及实际被输入的文字，请你列出
+肯定坏掉的那些键。
+
+输入描述:
+输入在2行中分别给出应该输入的文字、以及实际被输入的文字。每段文字是不超过80个字符的串，由字母A-Z（包括大、小写）、数字0-9、
+以及下划线“_”（代表空格）组成。题目保证2个字符串均非空。
+
+import java.util.*;
+public class Main {
+    public static void function(String strExc,String strAct){
+        //
+        HashSet<Character> setAct = new HashSet<>();
+        for(char ch : strAct.toUpperCase().toCharArray()) {
+            setAct.add(ch);
+        }
+         
+        HashSet<Character> setBroken = new HashSet<>();
+        //setAct就存储了 我实际输入的数据
+        //遍历strExc 看哪个键不在setAct集合当中
+        for(char ch : strExc.toUpperCase().toCharArray()) {
+              if(!setAct.contains(ch)  ) {
+                  //1、把他放到集合  2、
+                  if(!setBroken.contains(ch)){
+                     setBroken.add(ch);
+                      System.out.print(ch);
+                  }
+                   
+                   
+              }
+        }
+         
+    }
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String strExc = scan.nextLine();//期望输入的
+        String strAct = scan.nextLine();//实际输入的
+        function(strExc,strAct);
+    }
+}
