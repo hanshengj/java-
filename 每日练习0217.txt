@@ -1,0 +1,38 @@
+给定一个包含正整数、加(+)、减(-)、乘(*)、除(/)的算数表达式(括号除外)，计算其结果。
+
+表达式仅包含非负整数，+， - ，*，/ 四种运算符和空格  。 整数除法仅保留整数部分。
+class Solution {
+    public int calculate(String s) {
+        int res = 0;
+        char[] chars = s.trim().replace(" ", "").toCharArray();
+        Stack<Integer> stack = new Stack<>();
+        int len = chars.length, index = 0;
+        while(index < len) {
+            char op = '@';
+            if(chars[index] == '+' || chars[index] == '-' || chars[index] == '*' || chars[index] == '/') 
+                op = chars[index++];
+            int num = 0;
+            while(index < len && chars[index] >= '0' && chars[index] <= '9') {
+                num = num * 10 + chars[index] - '0';
+                index++;
+            }
+
+            //op + num的处理模式
+            if(op == '+')
+                stack.push(num);
+            else if(op == '-')
+                stack.push(-num);
+            else if(op == '*')
+                stack.push(stack.pop() * num);
+            else if(op == '/')
+                stack.push(stack.pop() / num);
+            else 
+            //第一个数字 @ + num的形式
+                stack.push(num);
+        }
+        while(!stack.isEmpty()) 
+            res += stack.pop();
+        
+        return res;
+    }
+}
