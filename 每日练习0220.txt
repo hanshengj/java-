@@ -1,0 +1,20 @@
+数组中占比超过一半的元素称之为主要元素。给定一个整数数组，找到它的主要元素。若没有，返回-1。
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        int majorityElement = nums[nums.length/2];
+        int number=0;
+        for (int num : nums) {
+            if (num == majorityElement){
+                number++;
+            }
+        }
+        if (number>nums.length/2){
+            return majorityElement;
+        }
+        return -1;
+    }
+
+}
+
