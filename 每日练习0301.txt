@@ -1,0 +1,53 @@
+给定一组字符，使用原地算法将其压缩。
+
+压缩后的长度必须始终小于或等于原数组长度。
+
+数组的每个元素应该是长度为1 的字符（不是 int 整数类型）。
+
+在完成原地修改输入数组后，返回数组的新长度。
+class Solution {
+   public int compress(char[] chars) {     
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < chars.length  ) {
+            int count = 1;
+            while (i < chars.length - 1  && chars[i] == chars[i + 1]) {
+                i++;
+                count++;
+            }
+            if (count == 1) {
+                sb.append(chars[i]);
+            } else if (count > 1) {
+                sb.append(chars[i]);
+                sb.append(count);
+            }
+            i++;
+        }
+        char[] help = sb.toString().toCharArray();
+        for (int j = 0; j < help.length ; j++) {
+            chars[j] = help[j];
+        }
+        return help.length;
+    }
+}
+
+
+
+给你一个整数数组 nums ，你需要找出一个 连续子数组 ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
+
+请你找出符合题意的 最短 子数组，并输出它的长度
+
+public class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int[] snums = nums.clone();
+        Arrays.sort(snums);
+        int start = snums.length, end = 0;
+        for (int i = 0; i < snums.length; i++) {
+            if (snums[i] != nums[i]) {
+                start = Math.min(start, i);
+                end = Math.max(end, i);
+            }
+        }
+        return (end - start >= 0 ? end - start + 1 : 0);
+    }
+}
